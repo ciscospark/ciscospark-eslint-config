@@ -73,39 +73,28 @@ ansiColor('xterm') {
         }
       }
 
-      stage('test') {
-        image.inside(DOCKER_RUN_OPTS) {
-          withCredentials([
-            string(credentialsId: '9f44ab21-7e83-480d-8fb3-e6495bf7e9f3', variable: 'CISCOSPARK_CLIENT_SECRET'),
-            usernamePassword(credentialsId: 'SAUCE_LABS_VALIDATED_MERGE_CREDENTIALS', passwordVariable: 'SAUCE_ACCESS_KEY', usernameVariable: 'SAUCE_USERNAME')
-          ]) {
-            sh ''
-          }
-        }
-      }
+      // stage('publish') {
+      //   image.inside(DOCKER_RUN_OPTS) {
+      //     withCredentials([
+      //       string(credentialsId: 'NPM_TOKEN', variable: 'NPM_TOKEN')
+      //     ]) {
+      //       sh 'echo \'//registry.npmjs.org/:_authToken=${NPM_TOKEN}\' > $HOME/.npmrc'
+      //       sh 'npm publish'
+      //       sh 'rm -f $HOME/.npmrc'
+      //     }
+      //   }
+      // }
 
-      stage('publish') {
-        image.inside(DOCKER_RUN_OPTS) {
-          withCredentials([
-            string(credentialsId: 'NPM_TOKEN', variable: 'NPM_TOKEN')
-          ]) {
-            sh 'echo \'//registry.npmjs.org/:_authToken=${NPM_TOKEN}\' > $HOME/.npmrc'
-            sh 'npm publish'
-            sh 'rm -f $HOME/.npmrc'
-          }
-        }
-      }
-
-      stage('publish (artifactory)') {
-        image.inside(DOCKER_RUN_OPTS) {
-          withCredentials([
-            string(credentialsId: 'ARTIFACTORY_DEPLOY_KEY-spark-js-sdk.gen', variable: 'NPM_CONFIG__AUTH')
-          ]) {
-            sh 'node ./update-publish-config.js'
-            sh 'npm publish'
-          }
-        }
-      }
+      // stage('publish (artifactory)') {
+      //   image.inside(DOCKER_RUN_OPTS) {
+      //     withCredentials([
+      //       string(credentialsId: 'ARTIFACTORY_DEPLOY_KEY-spark-js-sdk.gen', variable: 'NPM_CONFIG__AUTH')
+      //     ]) {
+      //       sh 'node ./update-publish-config.js'
+      //       sh 'npm publish'
+      //     }
+      //   }
+      // }
     }
   }
 }
