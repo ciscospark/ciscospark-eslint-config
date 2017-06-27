@@ -73,6 +73,18 @@ ansiColor('xterm') {
             sh 'NODE_ENV=test npm build'
           }
         }
+
+        stage('publish') {
+          image.inside(DOCKER_RUN_OPTS) {
+            withCredentials([
+              string(credentialsId: 'NPM_TOKEN', variable: 'NPM_TOKEN')
+            ]) {
+              sh 'echo \'//registry.npmjs.org/:_authToken=${NPM_TOKEN}\' > $HOME/.npmrc'
+              sh 'npm publish'
+              sh 'rm -f $HOME/.npmrc'
+            }
+          }
+        }
       }
     }
   }
