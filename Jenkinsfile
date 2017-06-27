@@ -72,29 +72,6 @@ ansiColor('xterm') {
           sh 'NODE_ENV=test npm build'
         }
       }
-
-      // stage('publish') {
-      //   image.inside(DOCKER_RUN_OPTS) {
-      //     withCredentials([
-      //       string(credentialsId: 'NPM_TOKEN', variable: 'NPM_TOKEN')
-      //     ]) {
-      //       sh 'echo \'//registry.npmjs.org/:_authToken=${NPM_TOKEN}\' > $HOME/.npmrc'
-      //       sh 'npm publish'
-      //       sh 'rm -f $HOME/.npmrc'
-      //     }
-      //   }
-      // }
-
-      // stage('publish (artifactory)') {
-      //   image.inside(DOCKER_RUN_OPTS) {
-      //     withCredentials([
-      //       string(credentialsId: 'ARTIFACTORY_DEPLOY_KEY-spark-js-sdk.gen', variable: 'NPM_CONFIG__AUTH')
-      //     ]) {
-      //       sh 'node ./update-publish-config.js'
-      //       sh 'npm publish'
-      //     }
-      //   }
-      // }
     }
   }
 }
