@@ -5,6 +5,7 @@ module.exports = {
     es6: true
   },
   extends: './es5.js',
+  parser: 'babel-eslint',
   parserOptions: {
     ecmaVersion: 2015,
     sourceType: 'module'
