@@ -82,7 +82,11 @@ ansiColor('xterm') {
 
           stage('install') {
             image.inside(DOCKER_RUN_OPTS) {
-              sh 'npm install'
+              withCredentials([
+                string(credentialsId: 'NPM_TOKEN', variable: 'NPM_TOKEN')
+              ]) {
+                sh 'npm install'
+              }
             }
           }
 
