@@ -27,7 +27,7 @@ ansiColor('xterm') {
               passwordVariable: 'GAUNTLET_PASSWORD',
               usernameVariable: 'GAUNTLET_USERNAME'
             )]) {
-              sh "curl -i --user ${GAUNTLET_USERNAME}:${GAUNTLET_PASSWORD} -X PUT 'https://gauntlet.wbx2.com/api/queues/QUEUE_NAME/master?componentTestStatus=failure&commitId=${GIT_COMMIT}'"
+              sh "curl -i --user ${GAUNTLET_USERNAME}:${GAUNTLET_PASSWORD} -X PUT 'https://gauntlet.wbx2.com/api/queues/ciscospark-eslint-config/master?componentTestStatus=failure&commitId=${GIT_COMMIT}'"
             }
           }
         }
