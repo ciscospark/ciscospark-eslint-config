@@ -88,7 +88,11 @@ ansiColor('xterm') {
 
           stage('build') {
             image.inside(DOCKER_RUN_OPTS) {
-              sh 'NODE_ENV=test npm build'
+              withCredentials([
+                string(credentialsId: 'NPM_TOKEN', variable: 'NPM_TOKEN')
+              ]) {
+                sh 'NODE_ENV=test npm build'
+              }
             }
           }
 
