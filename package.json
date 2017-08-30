@@ -1,6 +1,6 @@
 {
   "name": "@ciscospark/eslint-config",
-  "version": "2.0.1",
+  "version": "0.0.0-semantic-release",
   "description": "",
   "keywords": [
     "eslint",
@@ -42,5 +42,10 @@
   "dependencies": {
     "eslint-plugin-jsx-a11y": "^4.0.0",
     "eslint-plugin-react": "^6.10.3"
+  },
+  "release": {
+    "verifyConditions": [
+      "condition-circle"
+    ]
   }
 }
