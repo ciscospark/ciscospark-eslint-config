@@ -1,5 +1,7 @@
 # @ciscospark/eslint-rules
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/ciscospark/ciscospark-eslint-config.svg)](https://greenkeeper.io/)
+
 See https://ciscospark.github.io/spark-js-sdk/
 
 Common eslint rules used by Cisco Spark
