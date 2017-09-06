@@ -13,6 +13,9 @@
   "engines": {
     "node": ">=4"
   },
+  "scripts": {
+    "commitmsg": "conventional-changelog-lint -e"
+  },
   "peerDependencies": {
     "babel-eslint": "^7.1.1",
     "eslint": ">= 3",
@@ -20,5 +23,8 @@
     "eslint-plugin-jsx-a11y": "^4.0.0",
     "eslint-plugin-mocha": "^4.7.0",
     "eslint-plugin-react": "^6.8.0"
+  },
+  "devDependencies": {
+    "conventional-changelog-lint": "^2.1.1"
   }
 }
