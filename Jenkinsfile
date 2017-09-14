@@ -24,14 +24,6 @@ ansiColor('xterm') {
             checkout scm
           }
 
-          stage('install') {
-            withCredentials([
-              string(credentialsId: 'NPM_TOKEN', variable: 'NPM_TOKEN')
-            ]) {
-              sh 'npm install'
-            }
-          }
-
           stage('test') {
             sh 'ls'
             echo 'it works'
