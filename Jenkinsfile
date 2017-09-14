@@ -84,6 +84,10 @@ ansiColor('xterm') {
               withCredentials([
                 string(credentialsId: 'NPM_TOKEN', variable: 'NPM_TOKEN')
               ]) {
+                sh 'export PKG=@ciscospark/eslint-config
+                      npm info "$PKG@latest" peerDependencies --json \
+                        | command sed 's/[\{\},]//g ; s/: /@/g' \
+                        | xargs npm install --save-dev "$PKG@latest"'
                 sh 'npm install'
               }
             }
