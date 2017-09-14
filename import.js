@@ -1,5 +1,7 @@
 'use strict';
 
+// Gauntlet Pipeline Test 1
+
 module.exports = {
   extends: './es2015.js',
   parser: 'babel-eslint',

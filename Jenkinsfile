@@ -38,7 +38,7 @@ ansiColor('xterm') {
           }
 
           cleanup()
-        }
+        } 
         catch (err) {
           // Sometimes an exception can get thrown without changing the build result
           // from success. If we reach this point and the result is not UNSTABLE, then
