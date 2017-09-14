@@ -69,11 +69,10 @@ ansiColor('xterm') {
             sh 'echo "RUN groupadd -g $(id -g) jenkins" >> ./docker/builder/Dockerfile'
             sh 'echo "RUN useradd -u $(id -u) -g $(id -g) -m jenkins" >> ./docker/builder/Dockerfile'
             sh 'echo "USER $(id -u)" >> ./docker/builder/Dockerfile'
-            sh 'echo "RUN mkdir -p $HOME" >> ./docker/builder/Dockerfile'
             sh 'echo "RUN mkdir -p $HOME/.ssh" >> ./docker/builder/Dockerfile'
             sh 'echo "RUN ssh-keyscan -H github.com >> $HOME/.ssh/known_hosts" >> ./docker/builder/Dockerfile'
             sh "echo 'WORKDIR ${env.WORKSPACE}' >> ./docker/builder/Dockerfile"
-            dir('docker') {
+            dir('docker/builder') {
               image = docker.build(DOCKER_IMAGE_NAME);
             }
             // Reset the Dockerfile to make sure we don't accidentally commit it later
@@ -106,14 +105,14 @@ ansiColor('xterm') {
                 string(credentialsId: 'NPM_TOKEN', variable: 'NPM_TOKEN')
               ]) {
                 sh 'echo \'//registry.npmjs.org/:_authToken=${NPM_TOKEN}\' > $HOME/.npmrc'
-                sh 'npm publish'
+                // sh 'npm publish'
                 sh 'rm -f $HOME/.npmrc'
               }
             }
           }
 
           cleanup()
-        } 
+        }
         catch (err) {
           // Sometimes an exception can get thrown without changing the build result
           // from success. If we reach this point and the result is not UNSTABLE, then
