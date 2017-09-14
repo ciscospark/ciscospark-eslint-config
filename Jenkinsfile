@@ -27,7 +27,7 @@ ansiColor('xterm') {
               passwordVariable: 'GAUNTLET_PASSWORD',
               usernameVariable: 'GAUNTLET_USERNAME'
             )]) {
-              sh "curl -i --user ${GAUNTLET_USERNAME}:${GAUNTLET_PASSWORD} -X PUT 'https://gauntlet.wbx2.com/api/queues/QUEUE_NAME/master?componentTestStatus=failure&commitId=${GIT_COMMIT}'"
+              sh "curl -i --user ${GAUNTLET_USERNAME}:${GAUNTLET_PASSWORD} -X PUT 'https://gauntlet.wbx2.com/api/queues/ciscospark-eslint-config/master?componentTestStatus=failure&commitId=${GIT_COMMIT}'"
             }
           }
         }
@@ -69,11 +69,10 @@ ansiColor('xterm') {
             sh 'echo "RUN groupadd -g $(id -g) jenkins" >> ./docker/builder/Dockerfile'
             sh 'echo "RUN useradd -u $(id -u) -g $(id -g) -m jenkins" >> ./docker/builder/Dockerfile'
             sh 'echo "USER $(id -u)" >> ./docker/builder/Dockerfile'
-            sh 'echo "RUN mkdir -p $HOME" >> ./docker/builder/Dockerfile'
             sh 'echo "RUN mkdir -p $HOME/.ssh" >> ./docker/builder/Dockerfile'
             sh 'echo "RUN ssh-keyscan -H github.com >> $HOME/.ssh/known_hosts" >> ./docker/builder/Dockerfile'
             sh "echo 'WORKDIR ${env.WORKSPACE}' >> ./docker/builder/Dockerfile"
-            dir('docker') {
+            dir('docker/builder') {
               image = docker.build(DOCKER_IMAGE_NAME);
             }
             // Reset the Dockerfile to make sure we don't accidentally commit it later
@@ -82,13 +81,21 @@ ansiColor('xterm') {
 
           stage('install') {
             image.inside(DOCKER_RUN_OPTS) {
-              sh 'npm install'
+              withCredentials([
+                string(credentialsId: 'NPM_TOKEN', variable: 'NPM_TOKEN')
+              ]) {
+                sh 'npm install'
+              }
             }
           }
 
           stage('build') {
             image.inside(DOCKER_RUN_OPTS) {
-              sh 'NODE_ENV=test npm build'
+              withCredentials([
+                string(credentialsId: 'NPM_TOKEN', variable: 'NPM_TOKEN')
+              ]) {
+                sh 'NODE_ENV=test npm build'
+              }
             }
           }
 
@@ -98,14 +105,15 @@ ansiColor('xterm') {
                 string(credentialsId: 'NPM_TOKEN', variable: 'NPM_TOKEN')
               ]) {
                 sh 'echo \'//registry.npmjs.org/:_authToken=${NPM_TOKEN}\' > $HOME/.npmrc'
-                sh 'npm publish'
+                // sh 'npm publish'
                 sh 'rm -f $HOME/.npmrc'
               }
             }
           }
 
           cleanup()
-        } catch {
+        }
+        catch (err) {
           // Sometimes an exception can get thrown without changing the build result
           // from success. If we reach this point and the result is not UNSTABLE, then
           // we need to make sure it's FAILURE
