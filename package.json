@@ -1,6 +1,6 @@
 {
   "name": "@ciscospark/eslint-config",
-  "version": "2.0.1",
+  "version": "0.0.0-semantic-release",
   "description": "",
   "keywords": [
     "eslint",
@@ -9,6 +9,16 @@
   "license": "MIT",
   "author": "Ian W. Remmel <iremmel@cisco.com>",
   "main": "ciscospark.js",
+  "scripts": {
+    "lint": "eslint .",
+    "pretest": "npm run --silent lint",
+    "test": "npm run --silent test:es5 && npm run --silent test:mocha && npm run --silent test:react && npm run --silent test:import",
+    "test:es5": "eslint -c ./es5.js ./test/es5.js",
+    "test:import": "eslint -c ./import.js ./test/import.js",
+    "test:mocha": "eslint -c ./mocha.js ./test/mocha.js",
+    "test:react": "eslint -c ./react.js ./test/react.js",
+    "semantic-release": "semantic-release pre && npm publish && semantic-release post"
+  },
   "repository": "https://github.com/ciscospark/ciscospark-eslint-config.git",
   "engines": {
     "node": ">=4"
@@ -20,5 +30,22 @@
     "eslint-plugin-jsx-a11y": "^4.0.0",
     "eslint-plugin-mocha": "^4.7.0",
     "eslint-plugin-react": "^6.8.0"
+  },
+  "devDependencies": {
+    "babel-eslint": "^7.2.3",
+    "condition-circle": "^1.5.0",
+    "eslint": "^4.5.0",
+    "eslint-plugin-import": "^2.7.0",
+    "eslint-plugin-mocha": "^4.11.0",
+    "semantic-release": "^7.0.2"
+  },
+  "dependencies": {
+    "eslint-plugin-jsx-a11y": "^4.0.0",
+    "eslint-plugin-react": "^6.10.3"
+  },
+  "release": {
+    "verifyConditions": [
+      "condition-circle"
+    ]
   }
 }

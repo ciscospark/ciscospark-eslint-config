@@ -1,4 +1,3 @@
-'use strict';
 
 // Gauntlet Pipeline Test 1
 
